@@ -6,9 +6,14 @@
 #include <iostream>
 #include <memory>
 #include <mutex>
-#include <iostream>
 #include <functional>
 #include <map>
+#include <atomic>
+#include <condition_variable>
+#include <future>
+#include <queue>
+#include <thread>
+#include <vector>
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>

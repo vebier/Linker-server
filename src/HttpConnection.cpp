@@ -65,9 +65,6 @@ void HttpConncation::HandleReq()
 			beast::ostream(res_.body()) << "url not found\r\n";
 			WriteResponse();
 		}
-		res_.result(http::status::ok);
-		res_.insert(http::field::server, "Gateway_server");
-		WriteResponse();
 		return;
 	}
 }
