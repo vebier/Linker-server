@@ -1,18 +1,19 @@
 #pragma once
 #include "Singleton.h"
 
-class HttpConncation;
-using HttpHandler=std::function<void(std::shared_ptr<HttpConncation>)>;
+class HttpConnection;
+using HttpHandler=std::shared_ptr<std::function<void(std::shared_ptr<HttpConnection>)>>;
 
 class LogicSystem :public Singleton<LogicSystem>
 {
 	friend class Singleton<LogicSystem>;
 public:
 	~LogicSystem();
-	bool HandleGet(std::string_view, std::shared_ptr<HttpConncation>);
+	bool HandleGet(std::string_view, std::shared_ptr<HttpConnection>);
+	bool HandlePost(std::string_view, std::shared_ptr<HttpConnection>);
 private:
 	LogicSystem();
 
-	std::map<std::string_view, HttpHandler> post_handlers_;
-	std::map<std::string_view, HttpHandler> get_handlers_;
+	std::map<std::string, HttpHandler> post_handlers_;
+	std::map<std::string, HttpHandler> get_handlers_;
 };

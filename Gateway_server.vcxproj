@@ -140,6 +140,7 @@
     <ClInclude Include="include\HttpConnection.h" />
     <ClInclude Include="include\LogicSystem.h" />
     <ClInclude Include="include\Singleton.h" />
+    <ClInclude Include="include\ThreadPool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

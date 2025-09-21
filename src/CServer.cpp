@@ -16,7 +16,7 @@ void CServer::run()
 				self->run();
 				return;
 			}
-			std::make_shared<HttpConncation>(std::move(self->socket_))->run();
+			std::make_shared<HttpConnection>(std::move(self->socket_))->run();
 			//启动下一个异步接受操作
 			self->run();
 		}

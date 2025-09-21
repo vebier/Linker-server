@@ -44,5 +44,8 @@
     <ClInclude Include="include\LogicSystem.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\ThreadPool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
