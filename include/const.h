@@ -8,6 +8,7 @@
 #include <mutex>
 #include <functional>
 #include <map>
+#include <unordered_map>
 #include <atomic>
 #include <condition_variable>
 #include <future>
@@ -29,3 +30,6 @@ enum class ErrorCode
 	JSONERROR = 1001,
 	RPCFAILED = 1002,
 };
+
+class ConfigMgr;
+extern ConfigMgr gCfgMgr;

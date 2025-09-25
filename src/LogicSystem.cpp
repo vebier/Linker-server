@@ -1,13 +1,14 @@
 #include "LogicSystem.h"
 #include "HttpConnection.h"
 #include "ThreadPool.h"
+#include "VarifyGrpcClient.h"
 
 LogicSystem::~LogicSystem()
 {
 
 }
 
-bool LogicSystem::HandleGet(std::string_view url, std::shared_ptr<HttpConnection> connection)
+bool LogicSystem::HandleGet(const std::string url, std::shared_ptr<HttpConnection> connection)
 {
     auto it = get_handlers_.find(std::string(url));
     if (it == get_handlers_.end()) {
@@ -25,7 +26,7 @@ bool LogicSystem::HandleGet(std::string_view url, std::shared_ptr<HttpConnection
 	return true;
 }
 
-bool LogicSystem::HandlePost(std::string_view url, std::shared_ptr<HttpConnection> connection)
+bool LogicSystem::HandlePost(const std::string url, std::shared_ptr<HttpConnection> connection)
 {
     auto it = post_handlers_.find(std::string(url));
     if (it == post_handlers_.end()) {
@@ -84,8 +85,9 @@ LogicSystem::LogicSystem()
 
 		std::string email = src_root["email"].asString();
         // 业务逻辑处理
-        root["code"] = static_cast<int>(ErrorCode::SUCCESS);
-		root["email"] = src_root["email"];
+		auto reply =VarifyGrpcClient::GetInstance()->GetVarifyCode(email);
+		root["email"] = reply.email();
+		root["error"] = reply.error();
         auto json_src = root.toStyledString();
         beast::ostream(connection->res_.body()) << json_src;
         return true;
