@@ -11,7 +11,7 @@ ConfigMgr::ConfigMgr()
 
         // 构建config.ini文件的完整路径
         boost::filesystem::path config_path = current_path / "config.ini";
-        std::cout << "Config path: " << config_path << std::endl;
+        //std::cout << "Config path: " << config_path << std::endl;
 
         // 检查配置文件是否存在
         if (!boost::filesystem::exists(config_path)) {

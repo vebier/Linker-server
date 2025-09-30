@@ -1,15 +1,6 @@
 #pragma once
-#include <grpcpp/grpcpp.h>
-#include "message.grpc.pb.h"
-#include "const.h"
 #include "Singleton.h"
-using grpc::Channel;
-using grpc::Status;
-using grpc::ClientContext;
-
-using message::GetVarifyReq;
-using message::GetVarifyRsp;
-using message::VarifyService;
+#include "RPConPool.h"
 
 class VarifyGrpcClient : public Singleton<VarifyGrpcClient>
 {
@@ -19,6 +10,6 @@ public:
 	GetVarifyRsp GetVarifyCode(std::string email);
 private:
 	VarifyGrpcClient();
-	std::unique_ptr<VarifyService::Stub> stub_;
+	std::unique_ptr<RPConPool> pool_;
 };
 

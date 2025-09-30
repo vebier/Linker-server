@@ -15,6 +15,8 @@ bool LogicSystem::HandleGet(const std::string url, std::shared_ptr<HttpConnectio
         return false;
     }
 
+    /*auto func = it->second;
+	(*func)(connection);*/
     auto res = ThreadPool::instance().commit([func = it->second, conn = connection]() {
 
         (*func)(conn);
@@ -22,7 +24,8 @@ bool LogicSystem::HandleGet(const std::string url, std::shared_ptr<HttpConnectio
         conn->res_.result(http::status::ok);
         conn->res_.insert(http::field::server, "Gateway_server");
         conn->WriteResponse();
-        });
+    });
+
 	return true;
 }
 
@@ -32,7 +35,8 @@ bool LogicSystem::HandlePost(const std::string url, std::shared_ptr<HttpConnecti
     if (it == post_handlers_.end()) {
         return false;
     }
-
+    /*auto func = it->second;
+    (*func)(connection);*/
     auto res = ThreadPool::instance().commit([func = it->second, conn = connection]() {
 
         (*func)(conn);
@@ -72,7 +76,7 @@ LogicSystem::LogicSystem()
 			root["code"] = static_cast<int>(ErrorCode::JSONERROR);
 			auto json_src = root.toStyledString();
             beast::ostream(connection->res_.body()) << json_src;
-            return true;
+            return;
 		}
 
         if (!src_root.isMember("email")) {
@@ -80,7 +84,7 @@ LogicSystem::LogicSystem()
             root["code"] = static_cast<int>(ErrorCode::JSONERROR);
             auto json_src = root.toStyledString();
             beast::ostream(connection->res_.body()) << json_src;
-            return true;
+            return;
         }
 
 		std::string email = src_root["email"].asString();
@@ -88,8 +92,9 @@ LogicSystem::LogicSystem()
 		auto reply =VarifyGrpcClient::GetInstance()->GetVarifyCode(email);
 		root["email"] = reply.email();
 		root["error"] = reply.error();
+
         auto json_src = root.toStyledString();
         beast::ostream(connection->res_.body()) << json_src;
-        return true;
+        return;
     });
 }

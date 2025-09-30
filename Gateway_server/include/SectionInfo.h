@@ -61,6 +61,12 @@ public:
 		}
 		return it->second;
 	}
+
+	static ConfigMgr& GetInstance() {
+		static ConfigMgr ins;
+		return ins;
+	}
+
 private:
 	std::unordered_map<std::string, SectionInfo> _config_map;
 };

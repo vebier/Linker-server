@@ -1,10 +1,14 @@
 #include "HttpConnection.h"
 #include "LogicSystem.h"
 
-HttpConnection::HttpConnection(tcp::socket&& socket) : socket_(std::move(socket)),
+HttpConnection::HttpConnection(net::io_context& ioc) : socket_(ioc),
 deadline_{socket_.get_executor(), std::chrono::seconds(60)}
 {
 
+}
+tcp::socket& HttpConnection::GetSocket()
+{
+	return socket_;
 }
 void HttpConnection::run() {
 	auto self(shared_from_this());
@@ -64,9 +68,14 @@ void HttpConnection::HandleReq()
 			res_.set(http::field::content_type, "text/plain");
 			beast::ostream(res_.body()) << "url not found\r\n";
 			WriteResponse();
+			return;
 		}
+		/*res_.result(http::status::ok);
+		res_.set(http::field::server, "GateServer");
+		WriteResponse();*/
+		return;
 	}
-	else if (req_.method() == http::verb::post) {
+	if (req_.method() == http::verb::post) {
 		bool success = LogicSystem::GetInstance()->HandlePost(req_.target(), shared_from_this());
 		if (!success) {
 			res_.result(http::status::not_found);
@@ -74,8 +83,11 @@ void HttpConnection::HandleReq()
 			beast::ostream(res_.body()) << "url not found\r\n";
 			WriteResponse();
 		}
-	}
+		/*res_.result(http::status::ok);
+		res_.set(http::field::server, "GateServer");
+		WriteResponse();*/
 		return;
+	}
 }
 
 //辅助函数，将一个字节转换为对应的十六进制字符

@@ -7,7 +7,6 @@ public:
 	CServer(net::io_context& ioc,unsigned short& port);
 	void run();
 private:
-	tcp::socket socket_;
 	net::io_context& ioc_;
 	tcp::acceptor acceptor_;
 };

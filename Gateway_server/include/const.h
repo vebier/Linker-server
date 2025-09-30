@@ -15,9 +15,12 @@
 #include <queue>
 #include <thread>
 #include <vector>
+#include <mutex>
+#include <cassert>
 #include "json/json.h"
 #include "json/value.h"
 #include "json/reader.h"
+#include "hiredis.h"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
