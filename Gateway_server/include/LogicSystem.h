@@ -2,7 +2,7 @@
 #include "Singleton.h"
 
 class HttpConnection;
-using HttpHandler=std::shared_ptr<std::function<void(std::shared_ptr<HttpConnection>)>>;
+using HttpHandler=std::function<void(std::shared_ptr<HttpConnection>)>;
 
 class LogicSystem :public Singleton<LogicSystem>
 {

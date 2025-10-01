@@ -25,7 +25,7 @@ async function GetRedis(key) {
           console.log('result:','<'+result+'>', 'This key cannot be find...')
           return null
         }
-        console.log('Result:','<'+result+'>','Get key success!...');
+        //console.log('Result:','<'+result+'>','Get key success!...');
         return result
     }catch(error){
         console.log('GetRedis error is', error);
@@ -42,10 +42,10 @@ async function QueryRedis(key) {
         const result = await RedisCli.exists(key)
         //  判断该值是否为空 如果为空返回null
         if (result === 0) {
-          console.log('result:<','<'+result+'>','This key is null...');
+          //console.log('result:<','<'+result+'>','This key is null...');
           return null
         }
-        console.log('Result:','<'+result+'>','With this value!...');
+        //console.log('Result:','<'+result+'>','With this value!...');
         return result
     }catch(error){
         console.log('QueryRedis error is', error);

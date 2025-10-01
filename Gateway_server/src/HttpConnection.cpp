@@ -70,9 +70,9 @@ void HttpConnection::HandleReq()
 			WriteResponse();
 			return;
 		}
-		/*res_.result(http::status::ok);
+		res_.result(http::status::ok);
 		res_.set(http::field::server, "GateServer");
-		WriteResponse();*/
+		WriteResponse();
 		return;
 	}
 	if (req_.method() == http::verb::post) {
@@ -83,9 +83,9 @@ void HttpConnection::HandleReq()
 			beast::ostream(res_.body()) << "url not found\r\n";
 			WriteResponse();
 		}
-		/*res_.result(http::status::ok);
+		res_.result(http::status::ok);
 		res_.set(http::field::server, "GateServer");
-		WriteResponse();*/
+		WriteResponse();
 		return;
 	}
 }

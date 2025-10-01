@@ -18,7 +18,7 @@ GetVarifyRsp VarifyGrpcClient::GetVarifyCode(std::string email)
 		return reply;
 	}
 	else {
-		reply.set_error(static_cast<int>(ErrorCode::RPCFAILED));
+		reply.set_error(static_cast<int>(ErrorCode::RPCFailed));
 	}
 }
 
