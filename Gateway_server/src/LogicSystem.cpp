@@ -3,6 +3,7 @@
 #include "ThreadPool.h"
 #include "VarifyGrpcClient.h"
 #include "RedisMgr.h"
+#include "MySQLMgr.h"
 
 LogicSystem::~LogicSystem()
 {
@@ -74,16 +75,16 @@ LogicSystem::LogicSystem()
         if(!parse) {
 			std::cerr << "验证请求 json 解析失败" << std::endl;
 			root["code"] = static_cast<int>(ErrorCode::Error_Json);
-			auto json_src = root.toStyledString();
-            beast::ostream(connection->res_.body()) << json_src;
+			auto json_str = root.toStyledString();
+            beast::ostream(connection->res_.body()) << json_str;
             return;
 		}
 
         if (!src_root.isMember("email")) {
             std::cerr << "验证请求 json 参数错误" << std::endl;
             root["code"] = static_cast<int>(ErrorCode::Error_Json);
-            auto json_src = root.toStyledString();
-            beast::ostream(connection->res_.body()) << json_src;
+            auto json_str = root.toStyledString();
+            beast::ostream(connection->res_.body()) << json_str;
             return;
         }
 
@@ -93,8 +94,8 @@ LogicSystem::LogicSystem()
 		root["email"] = reply.email();
 		root["error"] = reply.error();
 
-        auto json_src = root.toStyledString();
-        beast::ostream(connection->res_.body()) << json_src;
+        auto json_str = root.toStyledString();
+        beast::ostream(connection->res_.body()) << json_str;
         return;
     };
 
@@ -111,8 +112,8 @@ LogicSystem::LogicSystem()
         if (!parse) {
             std::cerr << "注册请求 json 解析失败" << std::endl;
             root["code"] = static_cast<int>(ErrorCode::Error_Json);
-            auto json_src = root.toStyledString();
-            beast::ostream(connection->res_.body()) << json_src;
+            auto json_str = root.toStyledString();
+            beast::ostream(connection->res_.body()) << json_str;
             return;
         }
 
@@ -127,35 +128,45 @@ LogicSystem::LogicSystem()
         if (!RedisMgr::GetInstance()->Get(code_prefix + email, code)) {
             std::cerr << "验证码过期" << std::endl;
             root["code"] = static_cast<int>(ErrorCode::VarifyExpired);
-            auto json_src = root.toStyledString();
-            beast::ostream(connection->res_.body()) << json_src;
+            auto json_str = root.toStyledString();
+            beast::ostream(connection->res_.body()) << json_str;
             return;
         }
 
         if (code != verification) {
             std::cerr << "验证码错误" << std::endl;
             root["code"] = static_cast<int>(ErrorCode::VarifyCodeErr);
-            auto json_src = root.toStyledString();
-            beast::ostream(connection->res_.body()) << json_src;
+            auto json_str = root.toStyledString();
+            beast::ostream(connection->res_.body()) << json_str;
             return;
 		}
 
         if (pass != confirm) {
             std::cerr << "密码与确认密码不匹配" << std::endl;
             root["code"] = static_cast<int>(ErrorCode::PasswdErr);
-            auto json_src = root.toStyledString();
-            beast::ostream(connection->res_.body()) << json_src;
+            auto json_str = root.toStyledString();
+            beast::ostream(connection->res_.body()) << json_str;
             return;
 		}
 
+		int ret = MySQLMgr::GetInstance()->reg_user(user, email, pass);
+        if (ret == 0 || ret == -1) {
+			std::cerr << "邮箱或用户名重复，或者存储失败" << std::endl;
+            root["code"] = static_cast<int>(ErrorCode::UserExist);
+            auto json_str = root.toStyledString();
+            beast::ostream(connection->res_.body()) << json_str;
+			return;
+        }
+
         root["code"] = static_cast<int>(ErrorCode::Success);
 		root["user"] = user;
+		root["uid"] = ret;
 		root["email"] = email;
 		root["pass"] = pass;
 		root["confirm"] = confirm; 
         root["verification"] = verification;
-        auto json_src = root.toStyledString();
-        beast::ostream(connection->res_.body()) << json_src;
+        auto json_str = root.toStyledString();
+        beast::ostream(connection->res_.body()) << json_str;
         return;
     };
 }

@@ -44,9 +44,6 @@ redisContext* RedisPool::Acquire()
 	if (!stop_) {
 		return nullptr;
 	}
-	if( !stop_ ) {
-		return nullptr;
-	}
 	auto context = que_.front();
 	que_.pop();
 	return context;
@@ -69,5 +66,10 @@ void RedisPool::Release(redisContext* context)
 void RedisPool::Close() {
 	stop_ = false;
 	cv_.notify_all();
+}
+
+size_t RedisPool::Size()
+{
+	return poolSize_;
 }
 

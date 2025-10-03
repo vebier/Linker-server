@@ -8,6 +8,7 @@ public:
 	redisContext* Acquire();
 	void Release(redisContext* context);
 	void Close();
+	size_t Size();
 private:
 	std::queue<redisContext*> que_;
 	std::mutex mutex_;

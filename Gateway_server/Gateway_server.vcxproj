@@ -135,11 +135,14 @@
     <ClCompile Include="grpc\message.grpc.pb.cc" />
     <ClCompile Include="grpc\message.pb.cc" />
     <ClCompile Include="grpc\RPConPool.cpp" />
+    <ClCompile Include="include\MySQLMgr.cpp" />
     <ClCompile Include="include\SectionInfo.cpp" />
     <ClCompile Include="src\AsioIOContextPool.cpp" />
     <ClCompile Include="src\CServer.cpp" />
     <ClCompile Include="src\HttpConnection.cpp" />
     <ClCompile Include="src\LogicSystem.cpp" />
+    <ClCompile Include="src\MySQLDao.cpp" />
+    <ClCompile Include="src\MySQLPool.cpp" />
     <ClCompile Include="src\RedisMgr.cpp" />
     <ClCompile Include="src\RedisPool.cpp" />
     <ClCompile Include="src\VarifyGrpcClient.cpp" />
@@ -153,6 +156,9 @@
     <ClInclude Include="include\CServer.h" />
     <ClInclude Include="include\HttpConnection.h" />
     <ClInclude Include="include\LogicSystem.h" />
+    <ClInclude Include="include\MySQLDao.h" />
+    <ClInclude Include="include\MySQLMgr.h" />
+    <ClInclude Include="include\MySQLPool.h" />
     <ClInclude Include="include\RedisMgr.h" />
     <ClInclude Include="include\RedisPool.h" />
     <ClInclude Include="include\SectionInfo.h" />

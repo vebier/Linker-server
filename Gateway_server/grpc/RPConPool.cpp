@@ -1,4 +1,5 @@
 #include "RPConPool.h"
+#include "MySQLPool.h"
 
 RPConPool::RPConPool(const size_t size, const std::string& host, const std::string& port) :
 	size_(size), host_(host), port_(port),stop_(false)

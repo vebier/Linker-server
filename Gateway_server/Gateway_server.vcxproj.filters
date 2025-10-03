@@ -51,6 +51,15 @@
     <ClCompile Include="src\RedisPool.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\MySQLPool.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MySQLDao.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="include\MySQLMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\const.h">
@@ -93,6 +102,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\RedisPool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MySQLPool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MySQLDao.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MySQLMgr.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
